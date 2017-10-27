@@ -6,6 +6,7 @@ from sklearn.metrics import confusion_matrix
 import time
 from datetime import timedelta
 import math
+from tensorflow.python.saved_model import builder as saved_model_builder
 
 #Convolutional Layer 1
 filter_size1 = 5
@@ -40,38 +41,6 @@ num_channels = 1 #change this to 3 (RGB), MNIST is B/W
 
 #number of classes for our output
 num_classes = 10 #change this too, we only need 2 classes (selfie and no selfie)
-
-
-#helper for image plotting !!!!!!!!!! Not Necessaray
-'''
-def plot_images(images, cls_true, cls_pred=None):
-    assert len(images) == len(cls_true) == 9
-    
-    # Create figure with 3x3 sub-plots.
-    fig, axes = plt.subplots(3, 3)
-    fig.subplots_adjust(hspace=0.3, wspace=0.3)
-
-    for i, ax in enumerate(axes.flat):
-        # Plot image.
-        ax.imshow(images[i].reshape(img_shape), cmap='binary')
-
-        # Show true and predicted classes.
-        if cls_pred is None:
-            xlabel = "True: {0}".format(cls_true[i])
-        else:
-            xlabel = "True: {0}, Pred: {1}".format(cls_true[i], cls_pred[i])
-
-        # Show the classes as the label on the x-axis.
-        ax.set_xlabel(xlabel)
-        
-        # Remove ticks from the plot.
-        ax.set_xticks([])
-        ax.set_yticks([])
-    
-    # Ensure the plot is shown correctly with multiple plots
-    # in a single Notebook cell.
-    plt.show()
-'''
 
 #creates random weights for initialization
 def new_weights(shape):
@@ -246,6 +215,9 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 #create a tensorflow session to execute our graph
 session = tf.Session()
 
+#saves model to directory /model
+builder = tf.saved_model.builder.SavedModelBuilder("./model")
+
 #initialize all graph variables
 session.run(tf.initialize_all_variables())
 
@@ -283,7 +255,6 @@ def optimize(num_iterations):
 		#print time taken
 		print("time usage: " + str(timedelta(seconds=int(round(time_dif)))))
 		
-	
 # Split the test-set into smaller batches of this size.
 test_batch_size = 256
 
@@ -353,6 +324,27 @@ def print_test_accuracy(show_example_errors=False,
         print("Confusion Matrix:")
         plot_confusion_matrix(cls_pred=cls_pred)
 
-#number of times we run the model
-optimize(num_iterations=10000)
+#run the model a number of times
+optimize(num_iterations=1000)
+
+#save model (courtesy of daniel persson)
+builder.add_meta_graph_and_variables(session, [tf.saved_model.tag_constants.SERVING])
+builder.save(True)
+
+#print test accuracy
 print_test_accuracy()
+
+'''
+#Saves model: Code courtesy of medium.com
+
+#create a Saver object as normal in Python to save your variables
+saver = tf.train.Saver()
+# Use a saver_def to get the "magic" strings to restore
+saver_def = saver.as_saver_def()
+print saver_def.filename_tensor_name
+print saver_def.restore_op_name
+# write out 3 files
+saver.save(session, 'trained_model.sd')
+tf.train.write_graph(session.graph_def, '.', 'trained_model.proto', as_text=False)
+tf.train.write_graph(session.graph_def, '.', 'trained_model.txt', as_text=True)
+'''
