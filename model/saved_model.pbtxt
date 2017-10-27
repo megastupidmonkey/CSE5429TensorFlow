@@ -4497,7 +4497,7 @@ meta_graphs {
       }
     }
     node {
-      name: "ArgMax_1/dimension"
+      name: "output_tensor/dimension"
       op: "Const"
       attr {
         key: "_output_shapes"
@@ -4527,10 +4527,10 @@ meta_graphs {
       }
     }
     node {
-      name: "ArgMax_1"
+      name: "output_tensor"
       op: "ArgMax"
       input: "Softmax"
-      input: "ArgMax_1/dimension"
+      input: "output_tensor/dimension"
       attr {
         key: "T"
         value {
@@ -12811,7 +12811,7 @@ meta_graphs {
     node {
       name: "Equal"
       op: "Equal"
-      input: "ArgMax_1"
+      input: "output_tensor"
       input: "ArgMax"
       attr {
         key: "T"
@@ -13015,7 +13015,7 @@ meta_graphs {
             dtype: DT_STRING
             tensor_shape {
             }
-            string_val: "_temp_d5a13322aefa4b469fa7259e99d1921d/part"
+            string_val: "_temp_4e75f08df6124e83b94f52c8fe1b94d7/part"
           }
         }
       }

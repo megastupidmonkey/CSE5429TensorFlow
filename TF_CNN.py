@@ -195,7 +195,7 @@ print layer_fc2
 #squash outputs using softmax
 y_pred = tf.nn.softmax(layer_fc2)
 #set class as nearest integer to the largest element, this is the result of the network
-y_pred_cls = tf.argmax(y_pred, dimension=1)
+y_pred_cls = tf.argmax(y_pred, dimension=1, name = "output_tensor")
 
 #cost function: Cross_entropy
 #use cross_entropy with logits to estimate error
@@ -325,7 +325,7 @@ def print_test_accuracy(show_example_errors=False,
         plot_confusion_matrix(cls_pred=cls_pred)
 
 #run the model a number of times
-optimize(num_iterations=1000)
+optimize(num_iterations=10000)
 
 #save model (courtesy of daniel persson)
 builder.add_meta_graph_and_variables(session, [tf.saved_model.tag_constants.SERVING])
@@ -333,18 +333,3 @@ builder.save(True)
 
 #print test accuracy
 print_test_accuracy()
-
-'''
-#Saves model: Code courtesy of medium.com
-
-#create a Saver object as normal in Python to save your variables
-saver = tf.train.Saver()
-# Use a saver_def to get the "magic" strings to restore
-saver_def = saver.as_saver_def()
-print saver_def.filename_tensor_name
-print saver_def.restore_op_name
-# write out 3 files
-saver.save(session, 'trained_model.sd')
-tf.train.write_graph(session.graph_def, '.', 'trained_model.proto', as_text=False)
-tf.train.write_graph(session.graph_def, '.', 'trained_model.txt', as_text=True)
-'''

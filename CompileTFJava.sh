@@ -1,1 +1,1 @@
-javac -cp libtensorflow-1.3.0.jar TF_Test.java
+javac -cp libtensorflow-1.3.0.jar MnistReader.java TF_Test.java
