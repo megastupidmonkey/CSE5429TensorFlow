@@ -34,10 +34,10 @@ for filename in filenames:
 	print(im.format, im.size, im.mode)
 
 	im.thumbnail(size)
-	im.save(outputPath + outputExt)
-
 	im = im.convert("L")
 	print(im.format, im.size, im.mode)
+
+	im.save(outputPath + outputExt)
 	
 
 	data = list(im.getdata())
