@@ -9,11 +9,11 @@ filenames = []
 for filename in os.listdir(inputFolder):
 	if filename.lower().endswith(inputExt):
 		filenames.append(filename)
-		break
 
 
 for filename in filenames:
 	filePath = os.path.join(inputFolder, filename)
+	print(filePath)
 
 	data = []
 	with open(filePath, "r") as file:
@@ -23,6 +23,6 @@ for filename in filenames:
 				line = [int(i) for i in line]
 				data.extend(line)
 
-	print(data)
+	#print(data)
 	print("len = %d" % len(data))
 
