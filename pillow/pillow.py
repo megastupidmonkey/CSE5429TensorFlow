@@ -1,4 +1,7 @@
 # Install Pillow first
+# Converts images in inputFolder to grayscale images with the size specified
+# and saves them to outputFolder with format outputExt.
+# A list of pixel values is also saved to a file with the extension dataExt.
 
 import os
 from PIL import Image
@@ -6,7 +9,7 @@ from PIL import Image
 
 inputFolder = "input"
 outputFolder = "output"
-supportedFileTypes = [".png", ".jpg"]
+supportedFileTypes = [".png", ".jpg", ".bmp"]
 outputExt = ".png"
 dataExt = ".dat"
 size = (400, 300)

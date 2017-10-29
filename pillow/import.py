@@ -1,3 +1,6 @@
+#Basic structure for reading the list of pixel values
+
+
 import os
 
 
