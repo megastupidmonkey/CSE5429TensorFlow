@@ -37,7 +37,7 @@ img_size_flat = img_size * img_size
 img_shape = (img_size, img_size)
 
 #number of color channels in the image
-num_channels = 1 #change this to 3 (RGB), MNIST is B/W
+num_channels = 1 #Current dataset is B/W, change to 3 for RGB
 
 #number of classes for our output
 num_classes = 10 #change this too, we only need 2 classes (selfie and no selfie)

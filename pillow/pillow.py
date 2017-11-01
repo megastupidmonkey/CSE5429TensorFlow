@@ -40,16 +40,19 @@ for filename in filenames:
 	im = im.convert("L")
 	print(im.format, im.size, im.mode)
 
-	im.save(outputPath + outputExt)
-	
 
-	data = list(im.getdata())
-	with open(outputPath + dataExt, "w") as file:
-		first = True
-		for item in data:
-			if first:
-				file.write("%d" % item)
-				first = False
-			else:
-				file.write(" %d" % item)
+	for i in range(4):
+	
+		im.save(outputPath + "_" + str(i) + outputExt )
+	
+		data = list(im.getdata())
+		with open(outputPath + "_" + str(i) + dataExt, "w") as file:
+			first = True
+			for item in data:
+				if first:
+					file.write("%d" % item)
+					first = False
+				else:
+					file.write(" %d" % item)
+		im = im.rotate(90)	
 
